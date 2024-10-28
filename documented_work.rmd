@@ -1,0 +1,68 @@
+---
+title: "work documentation"
+author: "laetitia"
+date: "10/21/2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+*imported first table (table1) from excel
+*cut out headers and footers by setting reading frame from A7:M492
+```{r}
+ library(readxl)
+table1_pov_age_race <- read_excel("table1_pov_age_race.xlsx", 
+     range = "A7:M492")
+```
+
+
+*renamed all columns
+```{r}
+colnames(table1_pov_age_race) <- c("Year",
+"Total # of All People","# of All People, Below Poverty","% of All People, Below Poverty", 
+
+"Total # of People Under 18", "# of People Under 18, Below Poverty","% of People Under 18, Below Poverty",
+
+"Total # of People 18-64","# of People 18-64, Below Poverty","% of People 18-64, Below Poverty", 
+
+"Total # of People Over 65", "# of People Over 65, Below Poverty","% of People Over 65, Below Poverty"
+                                   )
+```
+
+
+
+*deleted rows 68, 93 (race was white and the 2 headings redundant)
+*then created an observation subset for race being white from rows 68-130
+```{r}
+View(table1_pov_age_race)
+table1_pov_age_race <- table1_pov_age_race[-c (68, 93), ]
+dplyr:: slice(iris, 68:130)
+```
+
+
+*deleted all in-table header rows (race) (run this separately)
+```{r}
+table1_pov_age_race <- table1_pov_age_race[-c (131, 156,185,210,235,273,298,323,339,364,389,405,430), ]
+
+```
+
+*deleted excessive superscript numbers from the years and substituted those values in the column Year
+```{r}
+table1_pov_age_race$Year -> year
+substring(year,1,4)
+
+substring(year,1,4) ->table1_pov_age_race$Year
+```
+
+for next time: 
+get rid of the NAs 
+if i use excel: 
+table1_pov_age_race <- read_xlsx("table1_pov_age_race.xlsx", na = "N")
+
+code is na.strings= N and read.csv but rest is same for csv file. need to export "new" table into a csv file
+
+

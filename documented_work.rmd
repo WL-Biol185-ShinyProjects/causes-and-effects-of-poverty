@@ -1,0 +1,63 @@
+---
+title: "work documentation"
+author: "laetitia"
+date: "10/21/2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+*imported first table (table1) from excel
+*cut out headers and footers by setting reading frame from A7:M492
+```{r}
+ library(readxl)
+table1_pov_age_race <- read_excel("table1_pov_age_race.xlsx", 
+     range = "A7:M492")
+```
+
+
+*renamed all columns
+```{r}
+colnames(table1_pov_age_race) <- c("Year",
+"Total # of All People","# of All People, Below Poverty","% of All People, Below Poverty", 
+
+"Total # of People Under 18", "# of People Under 18, Below Poverty","% of People Under 18, Below Poverty",
+
+"Total # of People 18-64","# of People 18-64, Below Poverty","% of People 18-64, Below Poverty", 
+
+"Total # of People Over 65", "# of People Over 65, Below Poverty","% of People Over 65, Below Poverty"
+                                   )
+```
+
+*deleted rows 68, 93 (race was white and the 2 headings redundant)
+*then created an observation subset for race being white from rows 68-130
+```{r}
+View(table1_pov_age_race)
+table1_pov_age_race <- table1_pov_age_race[-c (68, 93), ]
+dplyr:: slice(iris, 68:130)
+```
+
+
+*deleted all duplicate year rows (within same race sections), manually filtered out
+```{r}
+table1_pov_age_race <- table1_pov_age_race[-c (73,79,137,142,190,196,215,221,279,284,303,309,345,350,370,375,410,416,436,441), ]
+```
+
+*deleted all in-table header rows (race)
+```{r}
+table1_pov_age_race <- table1_pov_age_race[-c (131, 156,185,210,235,273,298,323,339,364,389,405,430), ]
+
+```
+
+*deleted excessive superscript numbers from the years
+```{r}
+table1_pov_age_race$Year -> year
+substring(year,1,4)
+```
+
+
+FOR NEXT CLASS: GET OBTAINED "GOOD" YEARS BACK INTO TABLE WITH TABLE$COL NAME SOMEHOW

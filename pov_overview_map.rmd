@@ -1,0 +1,14 @@
+---
+title: "pov_overview_map.rmd"
+author: "laetitia"
+date: "10/30/2024"
+output: html_document
+---
+
+*creating a map with focus on the US
+```{r}
+library(leaflet)
+leaflet() %>% setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addTiles()
+
+```
+

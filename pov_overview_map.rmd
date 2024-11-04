@@ -4,11 +4,75 @@ author: "laetitia"
 date: "10/30/2024"
 output: html_document
 ---
-
 *creating a map with focus on the US
 ```{r}
 library(leaflet)
-leaflet() %>% setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addTiles()
+m <- leaflet() %>% setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addTiles()
+m
+```
+
+*loading data for defining states within the map, dowloaded zip file from census bureau
+```{r}
+library(sf)
+states <- read_sf('cb_2019_us_state_5m.shp')
+```
+
+*imported poverty rates across state data csv file from census bureau
+```{r}
+library(readr)
+CB_pov_overview <- read.csv("CB_pov_overview.csv", sep = ",")
+View(CB_pov_overview)
+```
+
+*change column names of CB_pov_overview table
+```{r}
+colnames(CB_pov_overview) <- c("States", "FIPS", "Percentage", "Families Below Poverty", "Rank within US" )
+```
+
+*define each state and add color and add data that is joined together per steps below
+```{r}
+m <- leaflet() %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% 
+  addPolygons(data = states,
+              weight = 1,
+              color = 'white',
+              smoothFactor = .3,
+              fillOpacity = .75,
+              fillColor = ~paletteNum(states$Percentage))
+m
+```
+
+
+*merging data
+```{r}
+states <- merge(states, CB_pov_overview, all.x = F)
 
 ```
+
+*to make the states blue, using the blue palate
+```{r}
+CB_pov_overview$Percentage -> Percentage
+paletteNum <- colorNumeric('Blues', domain = states$Percentage)
+```
+
+*checking if state name in data is the same as state names in the shapefile
+```{r}
+is.element(CB_pov_overview$NAME, states$NAME) %>%
+  all()
+```
+
+MAKE LABELS NEXT CLASS!!!!!!
+FIX UNINITIALIZED PERCENTAGE ERROR
+*creating a label for each state
+```{r}
+stateLabels <- sprintf('<b>%s</b><br/>%g percentage',
+                       states$NAME, states$percentage) %>%
+  lapply(function(x) HTML(x))
+states <- cbind(states, matrix(stateLabels, ncol = 1, dimnames = list(c(), c('stateLabels'))))
+
+```
+
+
+
 

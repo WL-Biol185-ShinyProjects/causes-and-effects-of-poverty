@@ -4,12 +4,6 @@ author: "laetitia"
 date: "10/30/2024"
 output: html_document
 ---
-*creating a map with focus on the US
-```{r}
-library(leaflet)
-m <- leaflet() %>% setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addTiles()
-m
-```
 
 *loading data for defining states within the map, dowloaded zip file from census bureau
 ```{r}
@@ -29,8 +23,15 @@ View(CB_pov_overview)
 colnames(CB_pov_overview) <- c("States", "FIPS", "Percentage", "Families Below Poverty", "Rank within US" )
 ```
 
-*define each state and add color and add data that is joined together per steps below
+*to make the states blue, using the blue palate
 ```{r}
+CB_pov_overview$Percentage -> Percentage
+paletteNum <- colorNumeric('Blues', domain = states$Percentage)
+```
+
+*creating map of US, define each state and add color and add data that is joined together per steps below
+```{r}
+library(leaflet)
 m <- leaflet() %>%
   addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
   setView(lng = -96.25, lat = 39.50, zoom = 4) %>% 
@@ -50,11 +51,6 @@ states <- merge(states, CB_pov_overview, all.x = F)
 
 ```
 
-*to make the states blue, using the blue palate
-```{r}
-CB_pov_overview$Percentage -> Percentage
-paletteNum <- colorNumeric('Blues', domain = states$Percentage)
-```
 
 *checking if state name in data is the same as state names in the shapefile
 ```{r}

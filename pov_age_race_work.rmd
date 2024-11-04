@@ -1,0 +1,82 @@
+---
+title: "work documentation"
+author: "laetitia"
+date: "10/21/2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+*imported first table (table1) from excel
+*cut out headers and footers by setting reading frame from A7:M492
+```{r}
+ library(readxl)
+table1_pov_age_race <- read_excel("table1_pov_age_race.xlsx", 
+     range = "A7:M492")
+```
+
+
+*renamed all columns
+```{r}
+colnames(table1_pov_age_race) <- c("Year",
+"Total Number of All People","Number of All People Below Poverty","Percent of All People Below Poverty", 
+
+"Total Number of People Under 18", "Number of People Under 18 Below Poverty","Percent of People Under 18 Below Poverty",
+
+"Total Number of People 18-64","Number of People 18-64 Below Poverty","Percent of People 18-64 Below Poverty", 
+
+"Total Number of People Over 65", "Number of People Over 65 Below Poverty","Percent of People Over 65 Below Poverty"
+                                   )
+```
+
+
+
+*deleted rows 68, 93 (race was white and the 2 headings redundant)
+```{r}
+View(table1_pov_age_race)
+table1_pov_age_race <- table1_pov_age_race[-c (68, 93), ]
+```
+
+
+*deleted all in-table header rows (race) (run this separately)
+```{r}
+table1_pov_age_race <- table1_pov_age_race[-c (131, 156,185,210,235,273,298,323,339,364,389,405,430), ]
+
+```
+
+*deleted excessive superscript numbers from the years and substituted those values in the column Year
+```{r}
+table1_pov_age_race$Year -> year
+substring(year,1,4)
+
+substring(year,1,4) ->table1_pov_age_race$Year
+```
+
+*exported table into a csv file
+```{r}
+write.csv(table1_pov_age_race, file= "table1.csv")
+```
+
+*then removed NA values (N in cells)
+```{r}
+table1_pov_age_race <- read.csv("table1.csv", na.strings = "N")
+```
+
+*then exported clean table1 into a new csv
+```{r}
+write.csv(table1_pov_age_race, file= "table1_clean.csv")
+```
+
+*creating value for column: Number of All People Below Poverty
+```{r}
+table1_pov_age_race$Number.of.All.People.Below.Poverty -> Number_People_Below_Pov
+```
+
+*then created an observation subset for race being white from rows 68-130
+```{r}
+dplyr:: slice(iris, 68:130)
+```

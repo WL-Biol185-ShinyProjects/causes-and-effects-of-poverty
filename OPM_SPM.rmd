@@ -1,0 +1,28 @@
+---
+title: "OPM_SPM_time.rmd"
+author: "laetitia"
+date: "11/6/2024"
+output: html_document
+---
+
+*imported table OPM and SPM from excel
+*cut out headers and footers and limited data to total pop by setting reading frame from A2:F62
+```{r}
+ library(readxl)
+OPM_SPM_table <- read_excel("OPM_SPM.xlsx", 
+     range = "A2:F62")
+View(OPM_SPM_table)
+```
+
+*deleted excessive superscript numbers from the years and substituted those values in the column Year
+```{r}
+OPM_SPM_table$Year -> year
+substring(year,1,4)
+
+substring(year,1,4) ->OPM_SPM_table$Year
+```
+
+*deleted rows 48, 52, 55 (duplicates)
+```{r}
+OPM_SPM_table <- OPM_SPM_table[-c (48, 52,55), ]
+```

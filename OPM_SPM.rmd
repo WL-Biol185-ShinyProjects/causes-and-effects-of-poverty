@@ -63,9 +63,3 @@ OPM_SPM_table$OPM_Poverty_Rate -> OPM_Poverty_Rate
 ggplotly(ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of OPM Poverty Rate vs. Year",
         x ="Year", y = "OPM Poverty Rate")) 
 ```
-
-
-
-
-
-FOR NEXT TIME: CHANGE LABELS IN PLOTLY FOR HOVERING SO NO MORE UNDERSCORES

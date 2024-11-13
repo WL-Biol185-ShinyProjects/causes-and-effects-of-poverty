@@ -1,0 +1,58 @@
+---
+title: "cloropleth_trial2"
+author: "laetitia"
+date: "11/13/2024"
+output: html_document
+---
+
+*using CB's states shapefile, imported
+```{r}
+states <- read_sf('cb_2019_us_state_5m.shp')
+```
+
+*creating a map of the US, redefining each state with the SF
+```{r}
+library(leaflet)
+m <- leaflet() %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% 
+  addPolygons(data = states,
+              weight = 1)
+m
+```
+
+*imported poverty rates across state data csv file from census bureau
+```{r}
+library(readr)
+CB_pov_overview <- read.csv("CB_pov_overview.csv", sep = ",")
+View(CB_pov_overview)
+```
+
+*change column names of CB_pov_overview table
+```{r}
+colnames(CB_pov_overview) <- c("States", "FIPS", "Percentage", "Families Below Poverty", "Rank within US" )
+```
+
+
+*merging data
+```{r}
+states <- merge(states, CB_pov_overview, all.x = F)
+
+```
+
+*start coloring cloropleth
+```{r}
+CB_pov_overview$Percentage -> Percentage
+paletteNum <- colorNumeric('Blues', domain = states$Percentage)
+```
+
+
+*adding coloring into leaflet code
+```{r}
+
+m <- leaflet(states) %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states, fillColor = ~ paletteNum(Percentage), stroke = FALSE)
+m
+
+```

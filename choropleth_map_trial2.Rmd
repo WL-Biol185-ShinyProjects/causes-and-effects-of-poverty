@@ -1,0 +1,102 @@
+---
+title: "cloropleth_trial2"
+author: "laetitia"
+date: "11/13/2024"
+output: html_document
+---
+
+*libraries to be used
+```{r}
+library(leaflet)
+library(magrittr)
+library(sf)
+library(geojsonio)
+library(htmltools)
+library(htmlwidgets)
+library(stringi)
+library(RColorBrewer)
+library(readr)
+
+```
+
+*using CB's states shapefile, imported
+```{r}
+states <- read_sf('cb_2019_us_state_5m.shp')
+```
+
+*creating a map of the US, redefining each state with the SF
+```{r}
+m <- leaflet() %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% 
+  addPolygons(data = states,
+              weight = 1)
+m
+```
+
+*imported poverty rates across state data csv file from census bureau
+```{r}
+CB_pov_overview <- read.csv("CB_pov_overview.csv", sep = ",")
+```
+
+*change column names of CB_pov_overview table
+```{r}
+colnames(CB_pov_overview) <- c("NAME", "FIPS", "Percentage", "Families Below Poverty", "Rank within US" )
+```
+
+
+*merging data
+```{r}
+CB_pov_overview$NAME -> NAME
+states_geo <- merge(states, CB_pov_overview, by='NAME', all.x = F)
+
+```
+
+*start coloring choropleth
+```{r}
+CB_pov_overview$Percentage -> Percentage
+CB_pov_overview$`Families Below Poverty` -> Fam_below_pov
+paletteNum <- colorNumeric("Reds", domain = states_geo$Percentage)
+```
+
+
+*adding coloring into leaflet code
+```{r}
+
+m <- leaflet(states) %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states_geo, color = 'white', weight = 1, smoothFactor = .3, fillOpacity = .75,fillColor = ~ paletteNum(Percentage))
+m
+
+```
+
+*preparing text for interactive labels
+```{r}
+mytext <- paste(
+  "State: ", states_geo$NAME, "<br/>",
+  "Percent of Population in Poverty: ", states_geo$Percentage, "<br/>",
+  "Families Below Poverty: ", round(states_geo$`Families Below Poverty`, 2),
+  sep = ""
+) %>%
+  lapply(htmltools::HTML)
+
+```
+
+*final map
+```{r}
+m <- leaflet(states) %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states_geo, color = 'white', weight = 1, smoothFactor = .3, fillOpacity = .75,fillColor = ~ paletteNum(Percentage), label = mytext,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "13px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(
+    pal = paletteNum, values = ~Percentage, opacity = 0.9,
+    title = "Percent Below Poverty (%)", position = "bottomleft"
+  )
+
+m
+```

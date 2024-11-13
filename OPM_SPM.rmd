@@ -1,0 +1,71 @@
+---
+title: "OPM_SPM_time.rmd"
+author: "laetitia"
+date: "11/6/2024"
+output: html_document
+---
+
+*libraries needed
+```{r}
+library(readxl)
+library(shiny)
+library(ggplot2)
+library(lubridate)
+library(plotly)
+
+```
+
+
+
+*imported table OPM and SPM from excel
+*cut out headers and footers and limited data to total pop by setting reading frame from A2:F62
+```{r}
+OPM_SPM_table <- read_excel("OPM_SPM.xlsx", 
+     range = "A2:F62")
+```
+
+*renamed columns for convenience and overview
+```{r}
+colnames(OPM_SPM_table) <- c("year", "Anchored SPM Rate without Taxes/Transfers", "Anchored SPM", "Historical SPM without Taxes/Transfers", "SPM_Poverty_Rate", "OPM_Poverty_Rate" )
+                                   
+```
+
+
+*deleted excessive superscript numbers from the years and substituted those values in the column Year
+```{r}
+OPM_SPM_table$year -> year
+substring(year,1,4)
+
+substring(year,1,4) ->OPM_SPM_table$year
+```
+
+*deleted rows 48, 52, 55 (duplicates)
+```{r}
+OPM_SPM_table <- OPM_SPM_table[-c (2,4,7,48, 52,55,56), ]
+```
+
+
+*assigning values and organizing data
+```{r}
+OPM_SPM_table$SPM_Poverty_Rate -> SPM_Poverty_Rate
+OPM_SPM_table$year -> year
+OPM_SPM_table$Date <- make_date(year)
+make_date(year) -> Year
+```
+
+
+
+*starting to graph SPM vs Year and making it interactive with plotly
+```{r}
+ggplotly(ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of SPM Poverty Rate vs. Year",
+        x ="Year", y = "SPM Poverty Rate"))
+```
+
+
+
+*starting to graph OPM vs year and making it interactive with plotly
+```{r}
+OPM_SPM_table$OPM_Poverty_Rate -> OPM_Poverty_Rate
+ggplotly(ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of OPM Poverty Rate vs. Year",
+        x ="Year", y = "OPM Poverty Rate"))
+```

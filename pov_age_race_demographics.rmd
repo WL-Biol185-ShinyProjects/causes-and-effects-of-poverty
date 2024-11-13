@@ -37,7 +37,7 @@ table1_pov_age_race <- table1_pov_age_race[-c (68, 93), ]
 ```
 
 
-*deleted all in-table header rows (race) (run this separately)
+*deleted all in-table header rows (race)
 ```{r}
 table1_pov_age_race <- table1_pov_age_race[-c (131, 156,185,210,235,273,298,323,339,364,389,405,430), ]
 

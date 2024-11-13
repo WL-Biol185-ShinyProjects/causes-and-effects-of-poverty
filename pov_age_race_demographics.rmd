@@ -1,0 +1,135 @@
+---
+title: "work documentation"
+author: "laetitia"
+date: "10/21/2024"
+output: html_document
+---
+
+
+*imported first table (table1) from excel
+*cut out headers and footers by setting reading frame from A7:M492
+```{r}
+ library(readxl)
+table1_pov_age_race <- read_excel("table1_pov_age_race.xlsx", 
+     range = "A7:M492")
+```
+
+
+*renamed all columns
+```{r}
+colnames(table1_pov_age_race) <- c("Year",
+"Total Number of All People","Number of All People Below Poverty","All", 
+
+"Total Number of People Under 18", "Number of People Under 18 Below Poverty","Under_18",
+
+"Total Number of People 18-64","Number of People 18-64 Below Poverty","18_64", 
+
+"Total Number of People Over 65", "Number of People Over 65 Below Poverty","Over_65"
+                                   )
+```
+
+
+
+*deleted rows 68, 93 (race was white and the 2 headings redundant)
+```{r}
+View(table1_pov_age_race)
+table1_pov_age_race <- table1_pov_age_race[-c (68, 93), ]
+```
+
+
+*deleted all in-table header rows (race) (run this separately)
+```{r}
+table1_pov_age_race <- table1_pov_age_race[-c (131, 156,185,210,235,273,298,323,339,364,389,405,430), ]
+
+```
+
+*deleted excessive superscript numbers from the years and substituted those values in the column Year
+```{r}
+table1_pov_age_race$Year -> year
+substring(year,1,4)
+
+substring(year,1,4) ->table1_pov_age_race$Year
+```
+
+*exported table into a csv file
+```{r}
+write.csv(table1_pov_age_race, file= "table1.csv")
+```
+
+*then removed NA values (N in cells)
+```{r}
+table1_pov_age_race <- read.csv("table1.csv", na.strings = "N")
+```
+
+*then exported clean table1 into a new csv
+```{r}
+write.csv(table1_pov_age_race, file= "table1_clean.csv")
+```
+
+
+
+*make first bar graph for ALL race demographics in 2023, percentage below pov vs years (color the ages), manually entered percentages
+```{r}
+Age <- c("All Ages", "18 And Under","18-64","64 And Over")
+Percent_Below_Poverty <- c(11.1,15.3,10,9.7)
+Graph_All <- data.frame(Age, Percent_Below_Poverty)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty, fill=Percent_Below_Poverty)) + geom_bar(stat="identity") +ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across All Races",
+        x ="Age", y = "Percent Below Poverty (%)") + labs (fill= "Percent Below Poverty (%)")
+```
+
+
+*creating graph for race = white in 2023, manually entered percentages
+```{r}
+
+Percent_Below_Poverty_white <- c(9.7, 13, 9.1,8.3)
+Graph_White <- data.frame(Age, Percent_Below_Poverty_white)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty_white, fill= Percent_Below_Poverty_white)) + geom_bar(stat="identity") +ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across White Individuals",
+        x ="Age", y = "Percent Below Poverty (%)") + labs (fill= "Percent Below Poverty (%)")
+```
+*creating graph for race = black in 2023, manually entered percentages
+
+```{r}
+Percent_Below_Poverty_black <- c(17.9,25, 14.5, 19.9)
+Graph_Black <- data.frame(Age, Percent_Below_Poverty_black)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty_black, , fill=Percent_Below_Poverty_black)) + geom_bar(stat="identity") +ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across Black Individuals",
+        x ="Age", y = "Percent Below Poverty (%)") + labs (fill= "Percent Below Poverty (%)")
+```
+
+
+
+*creating graph for race = asian in 2023, manually entered percentages
+```{r}
+Percent_Below_Poverty_asian <- c(9.1, 11.6,7.9,11.0)
+Graph_Asian <- data.frame(Age, Percent_Below_Poverty_asian)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty_asian, fill=Percent_Below_Poverty_asian)) + geom_bar(stat="identity") +ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across Asian Individuals",
+        x ="Age", y = "Percent Below Poverty (%)") + labs (fill= "Percent Below Poverty (%)")
+```
+
+
+
+*creating graph for native american in 2023, manually entered percentages
+```{r}
+Percent_Below_Poverty_native <- c(21.2,28.8, 18.3,18.9)
+Graph_Native <- data.frame(Age, Percent_Below_Poverty_native)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty_native, fill=Percent_Below_Poverty_native)) + geom_bar(stat="identity") +ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across Native American Individuals",
+        x ="Age", y = "Percent Below Poverty (%)") + labs (fill= "Percent Below Poverty (%)")
+```
+
+
+
+*creating graph for hispanics in 2023, manually entered percentages
+```{r}
+Percent_Below_Poverty_hispanic <- c(16.6,22.5,13.8,17)
+Graph_Hispanic <- data.frame(Age, Percent_Below_Poverty_hispanic)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty_hispanic, fill= Percent_Below_Poverty_hispanic)) + geom_bar(stat="identity") +  ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across Hispanic Individuals",
+        x ="Age", y = "Percent Below Poverty (%)") + labs (fill= "Percent Below Poverty (%)")
+```
+
+
+*create graphs for 2 or more races in 2023, manually entered percentages
+```{r}
+Percent_Below_Poverty_more <- c(14.4,16.1,13.4,10.2)
+Graph_more <- data.frame(Age, Percent_Below_Poverty_more)
+ggplot(data=Graph_All,aes (x = Age, y = Percent_Below_Poverty_more, fill=Percent_Below_Poverty_more)) + geom_bar(stat="identity") +  ylim(0,30) + theme_classic() + labs(title="Age And Poverty Levels Across Individuals Of More Than 1 Race",
+        x ="Age", y = "Percent Below Poverty (%)")  + labs (fill= "Percent Below Poverty (%)")
+```

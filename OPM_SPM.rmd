@@ -5,13 +5,23 @@ date: "11/6/2024"
 output: html_document
 ---
 
+*libraries needed
+```{r}
+library(readxl)
+library(shiny)
+library(ggplot2)
+library(lubridate)
+library(plotly)
+
+```
+
+
+
 *imported table OPM and SPM from excel
 *cut out headers and footers and limited data to total pop by setting reading frame from A2:F62
 ```{r}
- library(readxl)
 OPM_SPM_table <- read_excel("OPM_SPM.xlsx", 
      range = "A2:F62")
-View(OPM_SPM_table)
 ```
 
 *renamed columns for convenience and overview
@@ -37,10 +47,8 @@ OPM_SPM_table <- OPM_SPM_table[-c (2,4,7,48, 52,55,56), ]
 
 *assigning values and organizing data
 ```{r}
-library (ggplot2)
 OPM_SPM_table$SPM_Poverty_Rate -> SPM_Poverty_Rate
 OPM_SPM_table$year -> year
-library(lubridate)
 OPM_SPM_table$Date <- make_date(year)
 make_date(year) -> Year
 ```
@@ -49,17 +57,15 @@ make_date(year) -> Year
 
 *starting to graph SPM vs Year and making it interactive with plotly
 ```{r}
-library(plotly)
 ggplotly(ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of SPM Poverty Rate vs. Year",
-        x ="Year", y = "SPM Poverty Rate")) 
+        x ="Year", y = "SPM Poverty Rate"))
 ```
 
 
 
 *starting to graph OPM vs year and making it interactive with plotly
 ```{r}
-library(plotly)
 OPM_SPM_table$OPM_Poverty_Rate -> OPM_Poverty_Rate
 ggplotly(ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of OPM Poverty Rate vs. Year",
-        x ="Year", y = "OPM Poverty Rate")) 
+        x ="Year", y = "OPM Poverty Rate"))
 ```

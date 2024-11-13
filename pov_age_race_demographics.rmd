@@ -32,7 +32,6 @@ colnames(table1_pov_age_race) <- c("Year",
 
 *deleted rows 68, 93 (race was white and the 2 headings redundant)
 ```{r}
-View(table1_pov_age_race)
 table1_pov_age_race <- table1_pov_age_race[-c (68, 93), ]
 ```
 

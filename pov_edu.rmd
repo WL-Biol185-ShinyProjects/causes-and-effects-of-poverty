@@ -1,0 +1,122 @@
+---
+title: "pov_edu_work.rmd"
+author: "laetitia"
+date: "11/13/2024"
+output: html_document
+---
+*libraries needed
+```{r}
+library(leaflet)
+library(magrittr)
+library(sf)
+library(geojsonio)
+library(htmltools)
+library(htmlwidgets)
+library(stringi)
+library(RColorBrewer)
+library(readr)
+library(tidyverse)
+library(dplyr)
+
+```
+
+
+*using CB's states shapefile, imported
+```{r}
+states <- read_sf('cb_2019_us_state_5m.shp')
+```
+
+*creating a map of the US, redefining each state with the SF
+```{r}
+m <- leaflet() %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% 
+  addPolygons(data = states,
+              weight = 1)
+m
+```
+
+*imported poverty rates across state data csv file from census bureau
+```{r}
+CB_pov_overview <- read.csv("CB_pov_overview.csv", sep = ",")
+```
+
+*change column names of CB_pov_overview table
+```{r}
+colnames(CB_pov_overview) <- c("NAME", "FIPS", "Percentage", "Families Below Poverty", "Rank within US" )
+```
+
+
+*importing education dataset
+```{r}
+CB_edu_attain <- read_csv("CB_edu_attain.csv")
+```
+
+*cleaning education dataset, renaming needed columns
+```{r}
+CB_edu_attain <- CB_edu_attain[ -c(1:6,8:10)]
+CB_edu_attain <- CB_edu_attain[-c (52:56), ]
+colnames(CB_edu_attain) <- c("NAME","Pop_Density","Pop_Over_25")
+colnames(CB_edu_attain)[27] = "Percentage_Bachelor"
+
+
+```
+
+*merging data with educational attainment
+```{r}
+CB_edu_attain$NAME -> NAME
+CB_pov_overview$NAME -> NAME
+states_geo_edu <-merge(states, CB_edu_attain, by='NAME', all.x = F)
+```
+
+*start coloring choropleth
+```{r}
+CB_edu_attain$Percentage_Bachelor -> Percentage_Bachelor
+CB_edu_attain$Pop_Density -> Pop_Density
+CB_edu_attain$Pop_Over_25 -> Pop_Over_25
+
+paletteNum <- colorNumeric("Greens", domain = states_geo_edu$Percentage_Bachelor)
+
+```
+
+
+*adding coloring into leaflet code
+```{r}
+
+m <- leaflet(states) %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states_geo_edu, color = 'white', weight = 1, smoothFactor = .3, fillOpacity = .75,fillColor = ~ paletteNum(Percentage_Bachelor))
+m
+
+```
+*preparing text for interactive labels
+```{r}
+mytext1 <- paste(
+  "State: ", states_geo_edu$NAME, "<br/>",
+  "Population Aged 25 And Over: ", states_geo_edu$Pop_Over_25, "<br/>",
+  "Population in Poverty (%): ", CB_pov_overview$Percentage, "<br/>",
+  "Population Over 25 with a Bachelor's Degree (%): ", round(states_geo_edu$Percentage_Bachelor, 2), 
+  sep = ""
+) %>%
+  lapply(htmltools::HTML)
+
+```
+
+*final map
+```{r}
+m <- leaflet(states) %>%
+  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
+  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states_geo_edu, color = 'white', weight = 1, smoothFactor = .3, fillOpacity = .75,fillColor = ~ paletteNum(Percentage_Bachelor), label = mytext1,
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "13px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(
+    pal = paletteNum, values = ~Percentage_Bachelor, opacity = 0.9,
+    title = "Bachelor's Degree Attainment and Poverty Statistics for Adults 25+, 2017", position = "bottomleft"
+  )
+
+m
+```

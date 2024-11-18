@@ -115,7 +115,7 @@ m <- leaflet(states) %>%
   ) %>%
   addLegend(
     pal = paletteNum, values = ~Percentage_Bachelor, opacity = 0.9,
-    title = "Bachelor's Degree Attainment and Poverty Statistics for Adults 25+, 2017", position = "bottomleft"
+    title = "Bachelor's Degree Attainment and Poverty Statistics for Adults 25+", position = "bottomleft"
   )
 
 m

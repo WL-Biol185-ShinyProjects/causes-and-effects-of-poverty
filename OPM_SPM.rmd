@@ -3,6 +3,7 @@ title: "OPM_SPM_time.rmd"
 author: "laetitia"
 date: "11/6/2024"
 output: html_document
+runtime: shiny
 ---
 
 *libraries needed
@@ -11,10 +12,8 @@ library(readxl)
 library(shiny)
 library(ggplot2)
 library(lubridate)
-library(plotly)
 
 ```
-
 
 
 *imported table OPM and SPM from excel
@@ -55,17 +54,40 @@ make_date(year) -> Year
 
 
 
-*starting to graph SPM vs Year and making it interactive with plotly
+*starting to graph SPM vs Year
 ```{r}
-ggplotly(ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of SPM Poverty Rate vs. Year",
-        x ="Year", y = "SPM Poverty Rate"))
+ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of SPM Poverty Rate vs. Year",
+        x ="Year", y = "SPM Poverty Rate")
+```
+
+*making graphs interactive for shiny
+```{r echo = FALSE}
+renderPlot({
+ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of SPM Poverty Rate vs. Year",
+        x ="Year", y = "SPM Poverty Rate")
+})
+```
+
+*starting to graph OPM vs year
+```{r}
+OPM_SPM_table$OPM_Poverty_Rate -> OPM_Poverty_Rate
+ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of OPM Poverty Rate vs. Year",
+        x ="Year", y = "OPM Poverty Rate")
 ```
 
 
-
-*starting to graph OPM vs year and making it interactive with plotly
-```{r}
+*making graphs interactive for shiny
+```{r echo = FALSE}
+renderPlot({
 OPM_SPM_table$OPM_Poverty_Rate -> OPM_Poverty_Rate
-ggplotly(ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of OPM Poverty Rate vs. Year",
-        x ="Year", y = "OPM Poverty Rate"))
+ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of OPM Poverty Rate vs. Year",
+        x ="Year", y = "OPM Poverty Rate")
+})
+```
+
+*making shiny widgets
+```{r echo = FALSE}
+selectInput("Year", label = "Year",
+              choices = c(1967:2023), selected = 1967 )
+
 ```

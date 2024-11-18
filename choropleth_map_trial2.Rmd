@@ -24,16 +24,6 @@ library(readr)
 states <- read_sf('cb_2019_us_state_5m.shp')
 ```
 
-*creating a map of the US, redefining each state with the SF
-```{r}
-m <- leaflet() %>%
-  addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
-  setView(lng = -96.25, lat = 39.50, zoom = 4) %>% 
-  addPolygons(data = states,
-              weight = 1)
-m
-```
-
 *imported poverty rates across state data csv file from census bureau
 ```{r}
 CB_pov_overview <- read.csv("CB_pov_overview.csv", sep = ",")
@@ -74,7 +64,7 @@ m
 ```{r}
 mytext <- paste(
   "State: ", states_geo$NAME, "<br/>",
-  "Percent of Population in Poverty: ", states_geo$Percentage, "<br/>",
+  "Population in Poverty (%): ", states_geo$Percentage, "<br/>",
   "Families Below Poverty: ", round(states_geo$`Families Below Poverty`, 2),
   sep = ""
 ) %>%

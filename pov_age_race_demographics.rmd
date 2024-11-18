@@ -6,10 +6,16 @@ output: html_document
 ---
 
 
+*libraries needed
+```{r}
+library(readxl)
+library(ggplot2)
+```
+
+
 *imported first table (table1) from excel
 *cut out headers and footers by setting reading frame from A7:M492
 ```{r}
- library(readxl)
 table1_pov_age_race <- read_excel("table1_pov_age_race.xlsx", 
      range = "A7:M492")
 ```

@@ -26,7 +26,8 @@ navbarPage(theme = shinytheme("united"),
                       ),
                       mainPanel(
                         h3("Main Panel"),
-                        p("This is where main content like plots or tables will appear")
+                        p("This is where main content like plots or tables will appear"),
+                        
                       )
                     )),
            tabPanel("Causes",
@@ -130,7 +131,14 @@ navbarPage(theme = shinytheme("united"),
                       ),
                       mainPanel(
                         h3("Main Panel"),
-                        p("This is where laetitias amazing graphs will gooooo")
+                        p("This is where laetitias amazing graphs will gooooo"),
+                        img(src = "demo1.png", style = "width:50%; height:auto;"),
+                        img(src = "demo2.png", style = "width:50%; height:auto; margin-right:10px;"),
+                        img(src = "demo3.png", style = "width:50%; height:auto;"),
+                        img(src = "demo4.png", style = "width:50%; height:auto;"),
+                        img(src = "demo5.png", style = "width:50%; height:auto;"),
+                        img(src = "demo6.png", style = "width:50%; height:auto;"),
+                        img(src = "demo7.png", style = "width:50%; height:auto;")
                       )
                     )
                     )

@@ -27,7 +27,7 @@ navbarPage(theme = shinytheme("united"),
                       mainPanel(
                         h3("Main Panel"),
                         p("This is where main content like plots or tables will appear"),
-                        
+                       
                       )
                     )),
            tabPanel("Causes",

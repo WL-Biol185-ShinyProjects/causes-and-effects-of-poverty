@@ -3,11 +3,12 @@ title: "pov_edu_work.rmd"
 author: "laetitia"
 date: "11/13/2024"
 output: html_document
+runtime: shiny
 ---
 *libraries needed
 ```{r}
 library(leaflet)
-library(magrittr)
+library(shiny)
 library(sf)
 library(geojsonio)
 library(htmltools)

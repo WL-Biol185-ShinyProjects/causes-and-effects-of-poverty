@@ -5,13 +5,14 @@ date: "11/13/2024"
 output: 
   html_document: 
     fig_caption: yes
+    runtime: shiny
 ---
 
 *libraries to be used
 
 ```{r}
 library(leaflet)
-library(magrittr)
+library(shiny)
 library(sf)
 library(geojsonio)
 library(htmltools)
@@ -60,10 +61,10 @@ paletteNum <- colorNumeric("Reds", domain = states_geo$Percentage)
 
 ```{r}
 
-m <- leaflet(states) %>%
+choropleth1 <- leaflet(states) %>%
   addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
   setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states_geo, color = 'white', weight = 1, smoothFactor = .3, fillOpacity = .75,fillColor = ~ paletteNum(Percentage))
-m
+choropleth1
 
 ```
 
@@ -83,7 +84,7 @@ mytext <- paste(
 *final map
 
 ```{r}
-m <- leaflet(states) %>%
+choropleth1 <- leaflet(states) %>%
   addProviderTiles(providers$CartoDB.PositronNoLabels)  %>% 
   setView(lng = -96.25, lat = 39.50, zoom = 4) %>% addPolygons(data=states_geo, color = 'white', weight = 1, smoothFactor = .3, fillOpacity = .75,fillColor = ~ paletteNum(Percentage), label = mytext,
     labelOptions = labelOptions(
@@ -97,5 +98,5 @@ m <- leaflet(states) %>%
     title = "Percent Below Poverty (%)", position = "bottomleft"
   )
 
-m
+choropleth1
 ```

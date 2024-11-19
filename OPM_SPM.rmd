@@ -85,9 +85,3 @@ ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(co
 })
 ```
 
-*making shiny widgets
-```{r echo = FALSE}
-selectInput("Year", label = "Year",
-              choices = c(1967:2023), selected = 1967 )
-
-```

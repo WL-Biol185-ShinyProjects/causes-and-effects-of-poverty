@@ -60,7 +60,7 @@ ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(col
         x ="Year", y = "SPM Poverty Rate")
 ```
 
-*making graphs interactive for shiny
+*making graph SPM interactive for shiny
 ```{r echo = FALSE}
 renderPlot({
 ggplot(data=OPM_SPM_table,aes (x = Year, y = SPM_Poverty_Rate)) + geom_point(color=4) + geom_line(color=4) + theme_classic() + labs(title="Graph of SPM Poverty Rate vs. Year",
@@ -76,7 +76,7 @@ ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(co
 ```
 
 
-*making graphs interactive for shiny
+*making graph OPM interactive for shiny
 ```{r echo = FALSE}
 renderPlot({
 OPM_SPM_table$OPM_Poverty_Rate -> OPM_Poverty_Rate

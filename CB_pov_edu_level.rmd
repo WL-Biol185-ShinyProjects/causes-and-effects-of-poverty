@@ -31,10 +31,10 @@ colnames(CB_pov_edu2) <- c("1","2", "Percent_People_Below_Pov_Threshold_All_Edu_
 
 *make bar graph for all education levels for people aged 25 and over in 2023, percentage of people below poverty threshold vs degree (color the degree), manually entered percentages
 ```{r}
-Edu_Levels <- c("All Education Levels", "No High School Degree","Some University","University (4 Years) Or Higher")
+Edu_Levels <- c("All Education Levels", "No High School Degree","Some College","University (4 Years) Or Higher")
 Percent_Below_Poverty1 <- c(9.5, 25.1,13.1,8.5)
 Graph_Edu <- data.frame(Edu_Levels, Percent_Below_Poverty1)
-ggplot(data=Graph_Edu,aes (x = Edu_Levels, y = Percent_Below_Poverty1, fill=Edu_Levels)) + geom_bar(stat="identity") + theme_classic() + theme(axis.text.x = element_text(angle=50, hjust =1)) + labs(title="Percentage of People Below Poverty Threshold by Education Level",
+ggplot(data=Graph_Edu,aes (x = Edu_Levels, y = Percent_Below_Poverty1, fill=Edu_Levels)) + geom_bar(stat="identity") + theme_classic() + theme(axis.text.x = element_text(angle=50, hjust =1)) + labs(title="Percentage of Population (25+) Below Poverty Threshold by Education Level",
         x ="Education Level", y = "Percent Below Poverty (%)") + labs (fill= "Education Levels")
 ```
 ```

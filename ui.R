@@ -1,6 +1,14 @@
 library(shiny)
 library(shinythemes)
 library(markdown)
+library(leaflet)
+library(sf)
+library(geojsonio)
+library(htmltools)
+library(htmlwidgets)
+library(stringi)
+library(RColorBrewer)
+library(readr)
 navbarPage(theme = shinytheme("united"),
            "Causes and Consequences of Poverty",
            tabPanel("Welcome",
@@ -27,7 +35,7 @@ navbarPage(theme = shinytheme("united"),
                       mainPanel(
                         h3("Main Panel"),
                         p("This is where main content like plots or tables will appear"),
-                       
+   
                       )
                     )),
            tabPanel("Causes",

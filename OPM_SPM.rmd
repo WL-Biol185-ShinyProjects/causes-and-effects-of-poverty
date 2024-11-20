@@ -85,3 +85,7 @@ ggplot(data=OPM_SPM_table, aes (x = Year, y = OPM_Poverty_Rate)) + geom_point(co
 })
 ```
 
+```{r}
+write.csv(OPM_SPM_table, file= "OPM_SPM_clean.csv")
+```
+

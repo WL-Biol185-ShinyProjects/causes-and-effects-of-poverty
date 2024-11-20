@@ -1,6 +1,12 @@
 library(shiny)
 library(shinythemes)
 library(markdown)
+library(leaflet)
+library(sf)
+library(htmltools)
+library(readr)
+library(tidyverse)
+
 navbarPage(theme = shinytheme("united"),
            "Causes and Consequences of Poverty",
            tabPanel("Welcome",
@@ -27,7 +33,7 @@ navbarPage(theme = shinytheme("united"),
                       mainPanel(
                         h3("Main Panel"),
                         p("This is where main content like plots or tables will appear"),
-                       
+                        leafletOutput("choropleth1")
                       )
                     )),
            tabPanel("Causes",
@@ -53,6 +59,7 @@ navbarPage(theme = shinytheme("united"),
                         polluted neighborhoods, and vulnerability to climate-related issues. This could cause a lack 
                         of access to clean air, water, and safe living conditions which can further deepen the poverty 
                           cycle.")
+                       
                         
                       ),
                       mainPanel(
@@ -92,7 +99,9 @@ navbarPage(theme = shinytheme("united"),
                       ),
                       mainPanel(
                         h3("Main Panel"),
-                        p("This is where main content like plots or tables will appear")
+                        p("This is where main content like plots or tables will appear"),
+                        plotOutput("OPM_graph", hover = "plot_hover"),
+                        verbatimTextOutput("info")
                       )
                     )),
            tabPanel("Education",
@@ -110,7 +119,8 @@ navbarPage(theme = shinytheme("united"),
                     ),
                     mainPanel(
                       h3("Main Panel"),
-                      p("This is where laetitias amazing graphs will gooooo")
+                      p("This is where laetitias amazing graphs will gooooo"),
+                      img(src = "edu1.png", style = "width:50%; height:auto;")
                     )
                     
                     )),

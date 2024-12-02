@@ -154,7 +154,7 @@ navbarPage(theme = shinytheme("united"),
                       ),
                       mainPanel(
                         h3("Poverty in the U.S. by Age and Race"),
-                        p("This is where laetitias amazing graphs will gooooo"),
+                        p(""),
                         img(src = "demo1.png", style = "width:50%; height:auto;"),
                         img(src = "demo2.png", style = "width:50%; height:auto; margin-right:10px;"),
                         img(src = "demo3.png", style = "width:50%; height:auto;"),

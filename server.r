@@ -94,7 +94,7 @@ observeEvent(input$SPM_hover, {
     hover_rate <- OPM_SPM_table$SPM_Poverty_Rate[OPM_SPM_table$year == hover_year]
     output$hover_info <- renderText({
       if (length(hover_rate) > 0) {
-        paste("Year:", hover_year, "\n, SPM Poverty Rate:", round(hover_rate, 2))
+        paste("Year:", hover_year, "\nSPM Poverty Rate:", round(hover_rate, 2))
       } else {
         "Hover over a valid point."
       }
@@ -110,7 +110,7 @@ observeEvent(input$OPM_hover, {
     hover_rate <- OPM_SPM_table$OPM_Poverty_Rate[OPM_SPM_table$year == hover_year]
     output$hover_info <- renderText({
       if (length(hover_rate) > 0) {
-        paste("Year:", hover_year, "\n, OPM Poverty Rate:", round(hover_rate, 2))
+        paste("Year:", hover_year, "\nOPM Poverty Rate:", round(hover_rate, 2))
       } else {
         "Hover over a valid point."
       }

@@ -104,24 +104,28 @@ navbarPage(theme = shinytheme("united"),
                              
                              actionButton("update", "Update View")
                       ),
-                      
                       )
                       ),
                       fluidPage(
                         h3("OMP and SPM Rates: A Yearly Comparison"),
-                        sidebarPanel(
-                          textOutput("hover_info")
-                        ),
+  
+                      fluidRow(
+                        column( width = 5,   
                         tabsetPanel(
                           tabPanel("SPM Poverty Rate", plotOutput("SPM_graph", hover = hoverOpts("SPM_hover"))),
                           tabPanel("OPM Poverty Rate", plotOutput("OPM_graph", hover = hoverOpts("OPM_hover")))
-                        ),
-                        basicPage(
-
+                             )
+                           ),
+                      column( width = 7,
+                              sidebarPanel(
+                              verbatimTextOutput("hover_info")
+                      )
+                      )
                       )
                     )),
            tabPanel("Education",
-                    h1("Education"),
+                    h2("Educational Attainment and Poverty Statistics in the U.S."),
+                    fluidPage(
                     sidebarLayout(
                       sidebarPanel(
                         p("Education and poverty are closely related as they both influence the other. Education can 
@@ -131,9 +135,8 @@ navbarPage(theme = shinytheme("united"),
                         generations causing educated parents to more likely support the education of their children. This 
                         is why cycles of poverty are so difficult to break.")
                     ),
-                    fluidPage(
+  
                     mainPanel(
-                      h3("Educational Attainment and Poverty Statistics in the U.S."),
                       img(src = "edu1.png", style = "width:50%; height:auto;"),
                       leafletOutput("eduMap", height = "600px"),
                     ))
@@ -141,8 +144,8 @@ navbarPage(theme = shinytheme("united"),
                     )),
            tabPanel("Demographics",
                     h1("Demographics"),
-                    sidebarLayout(
-                      sidebarPanel(
+                  
+                      mainPanel(
                         p("Factors including age, race, gender, family structure, and geographic location 
                         have a significant impact on poverty levels and can shape individuals’ economic opportunities, 
                         health, and overall well-being. The effects of demographics can influence the likelihood of one 
@@ -154,15 +157,18 @@ navbarPage(theme = shinytheme("united"),
                       ),
                       mainPanel(
                         h3("Poverty in the U.S. by Age and Race"),
+                        fluidPage(
                         p(""),
-                        img(src = "demo1.png", style = "width:50%; height:auto;"),
-                        img(src = "demo2.png", style = "width:50%; height:auto; margin-right:10px;"),
-                        img(src = "demo3.png", style = "width:50%; height:auto;"),
-                        img(src = "demo4.png", style = "width:50%; height:auto;"),
-                        img(src = "demo5.png", style = "width:50%; height:auto;"),
-                        img(src = "demo6.png", style = "width:50%; height:auto;"),
-                        img(src = "demo7.png", style = "width:50%; height:auto;")
+                        
+                        column(6, img(src = "demo1.png", style = "width:50%; height:auto;")),
+                        column(6, img(src = "demo2.png", style = "width:50%; height:auto; margin-right:10px;")),
+                        column(6, img(src = "demo3.png", style = "width:50%; height:auto;")),
+                        column(6, img(src = "demo4.png", style = "width:50%; height:auto;")),
+                        column(6, img(src = "demo5.png", style = "width:50%; height:auto;")),
+                        column(6, img(src = "demo6.png", style = "width:50%; height:auto;")),
+                        column(6, img(src = "demo7.png", style = "width:50%; height:auto;"))
                       )
-                    )
+                      )
+                    
                     )
            )

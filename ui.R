@@ -3,12 +3,16 @@ library(shinythemes)
 library(markdown)
 library(leaflet)
 library(sf)
+library(htmltools)
+library(readr)
+library(tidyverse)
 library(geojsonio)
 library(htmltools)
 library(htmlwidgets)
 library(stringi)
 library(RColorBrewer)
 library(readr)
+
 navbarPage(theme = shinytheme("united"),
            "Causes and Consequences of Poverty",
            tabPanel("Welcome",
@@ -32,10 +36,12 @@ navbarPage(theme = shinytheme("united"),
                           by reducing healthcare costs, crime, and improving social cohesion.")
                         
                       ),
-                      mainPanel(
-                        h3("Main Panel"),
-                        p("This is where main content like plots or tables will appear"),
-   
+                      fluidPage(
+                        mainPanel(
+                        h3("Visualizing Poverty Across the U.S. : Percentage and Families Below the Poverty Line"),
+                        leafletOutput("choroplethMap", height = "700px")
+                        ),
+
                       )
                     )),
            tabPanel("Causes",
@@ -61,6 +67,7 @@ navbarPage(theme = shinytheme("united"),
                         polluted neighborhoods, and vulnerability to climate-related issues. This could cause a lack 
                         of access to clean air, water, and safe living conditions which can further deepen the poverty 
                           cycle.")
+                       
                         
                       ),
                       mainPanel(
@@ -69,11 +76,14 @@ navbarPage(theme = shinytheme("united"),
                       )
                     )),
            tabPanel("OPM vs SPM",
-                    h1("Official Poverty Measure vs. Supplemental Poverty Measure"),
+                    h1("Official and Supplemental Poverty Measures"),
                     sidebarLayout(
-                      sidebarPanel(
+                      mainPanel( "This section provides insights and comparisons between different measures of poverty: OMP and SPM !"
+                      ),
                         fluidRow(
                           column(12,
+                                 p(""),
+                                 
                         selectInput("dataset", "Choose a Measurement:",
                                     choices = c("OPM", "SPM")),
                         
@@ -83,10 +93,9 @@ navbarPage(theme = shinytheme("united"),
                         
                         actionButton("update", "Update View")
                       ),
+                
                       column(12,
-                             h4("Results will be here!!!!")
-                             ),
-                      column(12,
+                             p(""),
                              p("The OPM does not consider geographic variations or effects of government 
                              assistance programs. Policies based on the OPM could overlook specific needs such as 
                              differing costs of living across regions potentially leading to underfunding or misdirected 
@@ -99,8 +108,16 @@ navbarPage(theme = shinytheme("united"),
                       )
                       ),
                       mainPanel(
-                        h3("Main Panel"),
-                        p("This is where main content like plots or tables will appear")
+                        h3("OMP and SPM Rates: A Yearly Comparison"),
+                        sidebarPanel(
+                          textOutput("hover_info")
+                        ),
+                        tabsetPanel(
+                          tabPanel("SPM Poverty Rate", plotOutput("SPM_graph", hover = hoverOpts("SPM_hover"))),
+                          tabPanel("OPM Poverty Rate", plotOutput("OPM_graph", hover = hoverOpts("OPM_hover")))
+                        ),
+                        basicPage(
+
                       )
                     )),
            tabPanel("Education",
@@ -116,10 +133,12 @@ navbarPage(theme = shinytheme("united"),
                         generations causing educated parents to more likely support the education of their children. This 
                         is why cycles of poverty are so difficult to break.")
                     ),
+                    fluidPage(
                     mainPanel(
-                      h3("Main Panel"),
-                      p("This is where laetitias amazing graphs will gooooo")
-                    )
+                      h3("Educational Attainment and Poverty Statistics in the U.S."),
+                      img(src = "edu1.png", style = "width:50%; height:auto;"),
+                      leafletOutput("eduMap", height = "600px"),
+                    ))
                     
                     )),
            tabPanel("Demographics",
@@ -138,7 +157,7 @@ navbarPage(theme = shinytheme("united"),
                         rates due to employment opportunities, healthcare, and education.")
                       ),
                       mainPanel(
-                        h3("Main Panel"),
+                        h3("Poverty in the U.S. by Age and Race"),
                         p("This is where laetitias amazing graphs will gooooo"),
                         img(src = "demo1.png", style = "width:50%; height:auto;"),
                         img(src = "demo2.png", style = "width:50%; height:auto; margin-right:10px;"),

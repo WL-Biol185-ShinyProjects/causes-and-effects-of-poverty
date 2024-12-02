@@ -24,7 +24,7 @@ function(input, output, session) {
   states_geo <- merge(states, CB_pov_overview, by = 'NAME', all.x = FALSE)
   
 #Making Color Palette
-  paletteNum <- colorNumeric("Reds", domain = states_geo[["Percentage"]])
+  paletteNum <- colorNumeric("Reds", domain = c(0, 20))
 
   mytext <- paste(
     "State: ", states_geo$NAME, "<br/>",
@@ -54,9 +54,9 @@ function(input, output, session) {
       ) %>%
       addLegend(
         pal = paletteNum,
-        values = ~states_geo[["Percentage"]],
+        values = ~pmin(pmax(states_geo[["Percentage"]], 0), 20),
         opacity = 0.9,
-        title = "Percent Below Poverty (%)",
+        title = "Population in Poverty (%)",
         position = "bottomleft"
       )
   })

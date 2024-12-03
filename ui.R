@@ -137,7 +137,7 @@ navbarPage(theme = shinytheme("united"),
                     ),
   
                     mainPanel(
-                      img(src = "edu1.png", style = "width:50%; height:auto;"),
+                      p(img(src = "edu1.png", style = "width:50%; height:auto;")),
                       leafletOutput("eduMap", height = "600px"),
                     ))
                     
@@ -188,7 +188,7 @@ navbarPage(theme = shinytheme("united"),
                         tags$li("Children (18 and under) consistently have the highest percentage living below the poverty line within each racial category."),
                         tags$li("Across racial groups, the highest overall poverty rates are found among Black and Native American populations, showing the systemic and historical challenges these communities face.")
                       ),
-                      p("These patterns underscore the intersection between age, race, and economic inequality")
+                      p("These patterns underscore the intersection between age, race, and economic inequality.")
                     )
                     
                     )

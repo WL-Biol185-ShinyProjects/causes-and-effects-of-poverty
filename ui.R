@@ -96,14 +96,12 @@ navbarPage(theme = shinytheme("united"),
                       column(12,
                              p(""),
                              
-                             selectInput("dataset", "Choose a Measurement:",
+                             selectInput("inOPMvsSPM", "Choose a Measurement:",
                                          choices = c("OPM", "SPM")),
                              
-                             selectInput("dataset", "Choose a Difference:",
-                                         choices = c("Measurement Units", "Poverty Threshold", "Threshold Adjustments",
-                                                     "Resource Measure", "Universe", "Time Series")),
-                             
-                             actionButton("update", "Update View")
+                             mainPanel(
+                               tableOutput("OPM_vs_SPM_3")
+                             )
                       ),
                       )
                       ),

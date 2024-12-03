@@ -66,6 +66,12 @@ function(input, output, session) {
   })
   
 #OPM/SPM TAB
+  
+#Differences between OPM and SPM Dropdown
+  OPM_vs_SPM_3 <- read_excel("OPM_vs_SPM-3.xlsx")
+  output$OPM_vs_SPM_3 <- renderTable({
+    TypeFilter <- subset(OPM_vs_SPM_3, OPM_vs_SPM_3$Type == input$inOPMvsSPM)
+  })
 #Loading Data for OPM/SPM graphs
 OPM_SPM_table <- read_excel("OPM_SPM.xlsx", range = "A2:F62")
 colnames(OPM_SPM_table) <- c("year", "Anchored SPM Rate without Taxes/Transfers", "Anchored SPM", "Historical SPM without Taxes/Transfers", "SPM_Poverty_Rate", "OPM_Poverty_Rate")

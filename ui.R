@@ -13,6 +13,7 @@ library(shinythemes)
 library(markdown)
 library(sf)
 library(geojsonio)
+library(shinyBS)
 
 navbarPage(theme = shinytheme("united"),
            "Causes and Consequences of Poverty",
@@ -43,6 +44,7 @@ navbarPage(theme = shinytheme("united"),
                                   ),
                                   ))),
            tabPanel("Causes",
+<<<<<<< HEAD
                     h1("What causes poverty?"),
                     sidebarLayout(
                       sidebarPanel(
@@ -70,6 +72,63 @@ navbarPage(theme = shinytheme("united"),
                         h3("Main Panel"),
                         p("This is where main content like plots or tables will appear"))
                               )),
+=======
+              fluidPage(
+                titlePanel("Understanding Poverty"),
+                   actionButton("info_button", "What Causes Poverty?", class = "btn-primary"),
+                      bsModal(
+                        "info_modal", 
+                        title = "What Causes Poverty?", 
+                        trigger = "info_button", 
+                        size = "large",
+                        tagList(
+                          h3("Many different things!"),
+                          p("The root causes of poverty are multifaceted, stemming from economic, social, health, and environmental factors that create and reinforce cycles of deprivation."),
+                          
+                          div(
+                            class = "accordion",
+                            div(
+                              class = "panel panel-default",
+                              div(class = "panel-heading", h4(class = "panel-title", a("Economic Factors", href = "#econ", "data-toggle" = "collapse"))),
+                              div(id = "econ", class = "panel-collapse collapse", 
+                                  div(class = "panel-body", 
+                                      p("These include high unemployment rates and the rising costs of living, which prevent individuals from having economic mobility and especially affect marginalized communities.")
+                                  )
+                              )
+                            ),
+                            div(
+                              class = "panel panel-default",
+                              div(class = "panel-heading", h4(class = "panel-title", a("Social Factors", href = "#social", "data-toggle" = "collapse"))),
+                              div(id = "social", class = "panel-collapse collapse", 
+                                  div(class = "panel-body", 
+                                      p("Inadequate educational opportunities and systemic discrimination in housing, employment, and criminal justice often create obstacles for low-income individuals or families. Low-income groups often lack social networks or support systems making it even harder to escape the cycle of poverty.")
+                                  )
+                              )
+                            ),
+                            div(
+                              class = "panel panel-default",
+                              div(class = "panel-heading", h4(class = "panel-title", a("Health Factors", href = "#health", "data-toggle" = "collapse"))),
+                              div(id = "health", class = "panel-collapse collapse", 
+                                  div(class = "panel-body", 
+                                      p("Groups in poverty often are more susceptible to health concerns due to lack of access to healthy foods, safe areas to exercise, and healthy environments. This combined with high healthcare costs make it difficult to survive and limits employment and income opportunities.")
+                                  )
+                              )
+                            ),
+                            div(
+                              class = "panel panel-default",
+                              div(class = "panel-heading", h4(class = "panel-title", a("Environmental Factors", href = "#envir", "data-toggle" = "collapse"))),
+                              div(id = "envir", class = "panel-collapse collapse", 
+                                  div(class = "panel-body", 
+                                      p("Low-income groups are more susceptible to unsafe housing, polluted neighborhoods, and vulnerability to climate-related issues. This could cause a lack of access to clean air, water, and safe living conditions which can further deepen the poverty cycle.")
+                                  )
+                              )
+                            )
+                          )
+                        )
+                      )
+                    ) ),
+           
+>>>>>>> 1d240661efd6a0b93a7c399a989408de5ec0f6a4
            tabPanel("OPM vs SPM",
                     h1("Official and Supplemental Poverty Measures"),
                       sidebarLayout(

@@ -2,7 +2,6 @@ library(shiny)
 library(ggplot2)
 library(leaflet)
 library(tidyverse)
-library(leaflet)
 library(htmltools)
 library(htmlwidgets)
 library(stringi)
@@ -11,6 +10,11 @@ library(shinyWidgets)
 library(RColorBrewer)
 library(lubridate)
 library(readxl)
+library(shinythemes)
+library(markdown)
+library(sf)
+library(readr)
+library(geojsonio)
 
 function(input, output, session) {
 
@@ -24,7 +28,7 @@ function(input, output, session) {
   states_geo <- merge(states, CB_pov_overview, by = 'NAME', all.x = FALSE)
   
 #Making Color Palette
-  paletteNum <- colorNumeric("Reds", domain = states_geo[["Percentage"]])
+  paletteNum <- colorNumeric("Reds", domain = c(0, 20))
 
   mytext <- paste(
     "State: ", states_geo$NAME, "<br/>",
@@ -54,9 +58,9 @@ function(input, output, session) {
       ) %>%
       addLegend(
         pal = paletteNum,
-        values = ~states_geo[["Percentage"]],
+        values = ~pmin(pmax(states_geo[["Percentage"]], 0), 20),
         opacity = 0.9,
-        title = "Percent Below Poverty (%)",
+        title = "Population in Poverty (%)",
         position = "bottomleft"
       )
   })
@@ -94,7 +98,7 @@ observeEvent(input$SPM_hover, {
     hover_rate <- OPM_SPM_table$SPM_Poverty_Rate[OPM_SPM_table$year == hover_year]
     output$hover_info <- renderText({
       if (length(hover_rate) > 0) {
-        paste("Year:", hover_year, "\n, SPM Poverty Rate:", round(hover_rate, 2))
+        paste("Year:", hover_year, "\nSPM Poverty Rate:", round(hover_rate, 2))
       } else {
         "Hover over a valid point."
       }
@@ -110,7 +114,7 @@ observeEvent(input$OPM_hover, {
     hover_rate <- OPM_SPM_table$OPM_Poverty_Rate[OPM_SPM_table$year == hover_year]
     output$hover_info <- renderText({
       if (length(hover_rate) > 0) {
-        paste("Year:", hover_year, "\n, OPM Poverty Rate:", round(hover_rate, 2))
+        paste("Year:", hover_year, "\nOPM Poverty Rate:", round(hover_rate, 2))
       } else {
         "Hover over a valid point."
       }

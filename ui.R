@@ -1,17 +1,18 @@
 library(shiny)
-library(shinythemes)
-library(markdown)
+library(ggplot2)
 library(leaflet)
-library(sf)
-library(htmltools)
-library(readr)
-library(tidyverse)
-library(geojsonio)
 library(htmltools)
 library(htmlwidgets)
 library(stringi)
+library(DT)
+library(shinyWidgets)
 library(RColorBrewer)
-library(readr)
+library(lubridate)
+library(readxl)
+library(shinythemes)
+library(markdown)
+library(sf)
+library(geojsonio)
 
 navbarPage(theme = shinytheme("united"),
            "Causes and Consequences of Poverty",
@@ -104,24 +105,28 @@ navbarPage(theme = shinytheme("united"),
                              
                              actionButton("update", "Update View")
                       ),
-                      
                       )
                       ),
                       fluidPage(
                         h3("OMP and SPM Rates: A Yearly Comparison"),
-                        sidebarPanel(
-                          textOutput("hover_info")
-                        ),
+  
+                      fluidRow(
+                        column( width = 5,   
                         tabsetPanel(
                           tabPanel("SPM Poverty Rate", plotOutput("SPM_graph", hover = hoverOpts("SPM_hover"))),
                           tabPanel("OPM Poverty Rate", plotOutput("OPM_graph", hover = hoverOpts("OPM_hover")))
-                        ),
-                        basicPage(
-
+                             )
+                           ),
+                      column( width = 7,
+                              sidebarPanel(
+                              verbatimTextOutput("hover_info")
+                      )
+                      )
                       )
                     )),
            tabPanel("Education",
-                    h1("Education"),
+                    h2("Educational Attainment and Poverty Statistics in the U.S."),
+                    fluidPage(
                     sidebarLayout(
                       sidebarPanel(
                         p("Education and poverty are closely related as they both influence the other. Education can 
@@ -131,18 +136,17 @@ navbarPage(theme = shinytheme("united"),
                         generations causing educated parents to more likely support the education of their children. This 
                         is why cycles of poverty are so difficult to break.")
                     ),
-                    fluidPage(
+  
                     mainPanel(
-                      h3("Educational Attainment and Poverty Statistics in the U.S."),
-                      img(src = "edu1.png", style = "width:50%; height:auto;"),
+                      p(img(src = "edu1.png", style = "width:50%; height:auto;")),
                       leafletOutput("eduMap", height = "600px"),
                     ))
                     
                     )),
            tabPanel("Demographics",
                     h1("Demographics"),
-                    sidebarLayout(
-                      sidebarPanel(
+                  
+                      mainPanel(
                         p("Factors including age, race, gender, family structure, and geographic location 
                         have a significant impact on poverty levels and can shape individuals’ economic opportunities, 
                         health, and overall well-being. The effects of demographics can influence the likelihood of one 
@@ -152,17 +156,41 @@ navbarPage(theme = shinytheme("united"),
                         like redlining, exclusion from labor markets, and education inequalities have left lasting impacts on
                         wealth and income for communities of color.")
                       ),
-                      mainPanel(
-                        h3("Poverty in the U.S. by Age and Race"),
-                        p(""),
-                        img(src = "demo1.png", style = "width:50%; height:auto;"),
-                        img(src = "demo2.png", style = "width:50%; height:auto; margin-right:10px;"),
-                        img(src = "demo3.png", style = "width:50%; height:auto;"),
-                        img(src = "demo4.png", style = "width:50%; height:auto;"),
-                        img(src = "demo5.png", style = "width:50%; height:auto;"),
-                        img(src = "demo6.png", style = "width:50%; height:auto;"),
-                        img(src = "demo7.png", style = "width:50%; height:auto;")
+                    mainPanel(
+                      h3("Poverty in the U.S. by Age and Race"),
+                      tabsetPanel(
+                        tabPanel("All Races - Poverty Levels",
+                                 img(src = "demo1.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        ),
+                        tabPanel("White Individuals",
+                                 img(src = "demo2.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        ),
+                        tabPanel("Black Individuals",
+                                 img(src = "demo3.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        ),
+                        tabPanel("Asian Individuals",
+                                 img(src = "demo4.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        ),
+                        tabPanel("Native American Individuals",
+                                 img(src = "demo5.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        ),
+                        tabPanel("Hispanic Individuals",
+                                 img(src = "demo6.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        ),
+                        tabPanel("Individuals of Multiple Races",
+                                 img(src = "demo7.png", style = "width:80%; height:auto; margin:auto; display:block;")
+                        )
                       )
+                    ),
+                    mainPanel(
+                      h3("Here's How They Compare:"),
+                      p("When examining poverty levels in the United States:"),
+                      tags$ul(
+                        tags$li("Children (18 and under) consistently have the highest percentage living below the poverty line within each racial category."),
+                        tags$li("Across racial groups, the highest overall poverty rates are found among Black and Native American populations, showing the systemic and historical challenges these communities face.")
+                      ),
+                      p("These patterns underscore the intersection between age, race, and economic inequality.")
                     )
+                    
                     )
            )

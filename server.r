@@ -19,6 +19,7 @@ library(geojsonio)
 function(input, output, session) {
 
 #WELCOME TAB
+  
 #Loading Data for Choropleth and defining pop up labels
   states <- read_sf('cb_2019_us_state_5m.shp')
   CB_pov_overview <- read.csv("CB_pov_overview.csv", sep = ",")
@@ -35,7 +36,7 @@ function(input, output, session) {
     "Population in Poverty (%): ", round(states_geo[["Percentage"]], 2), "<br/>",
     "Families Below Poverty: ", round(states_geo$`Families Below Poverty`, 2),
     sep = ""
-  ) %>% lapply(htmltools::HTML)
+                ) %>% lapply(htmltools::HTML)
   
 #Code for Choropleth Map
   output$choroplethMap <- renderLeaflet({
@@ -53,17 +54,15 @@ function(input, output, session) {
         labelOptions = labelOptions(
           style = list("font-weight" = "normal", padding = "3px 8px"),
           textsize = "13px",
-          direction = "auto"
-        )
-      ) %>%
+          direction = "auto")
+                ) %>%
       addLegend(
         pal = paletteNum,
         values = ~pmin(pmax(states_geo[["Percentage"]], 0), 20),
         opacity = 0.9,
         title = "Population in Poverty (%)",
-        position = "bottomleft"
-      )
-  })
+        position = "bottomleft")
+                                        })
   
 #OPM/SPM TAB
   
@@ -71,10 +70,11 @@ function(input, output, session) {
   OPM_vs_SPM_3 <- read_excel("OPM_vs_SPM-3.xlsx")
   output$OPM_vs_SPM_3 <- renderTable({
     TypeFilter <- subset(OPM_vs_SPM_3, OPM_vs_SPM_3$Type == input$inOPMvsSPM)
-  })
+                                    })
 #Loading Data for OPM/SPM graphs
 OPM_SPM_table <- read_excel("OPM_SPM.xlsx", range = "A2:F62")
-colnames(OPM_SPM_table) <- c("year", "Anchored SPM Rate without Taxes/Transfers", "Anchored SPM", "Historical SPM without Taxes/Transfers", "SPM_Poverty_Rate", "OPM_Poverty_Rate")
+colnames(OPM_SPM_table) <- c("year", "Anchored SPM Rate without Taxes/Transfers", "Anchored SPM", 
+                             "Historical SPM without Taxes/Transfers", "SPM_Poverty_Rate", "OPM_Poverty_Rate")
 OPM_SPM_table$year <- as.numeric(substring(OPM_SPM_table$year, 1, 4))
 OPM_SPM_table <- OPM_SPM_table[-c(2, 4, 7, 48, 52, 55, 56), ]
 
@@ -85,7 +85,7 @@ output$SPM_graph <- renderPlot({
     geom_line(color = 4) +
     theme_classic() +
     labs(title = "SPM Poverty Rate vs. Year", x = "Year", y = "SPM Poverty Rate")
-})
+                              })
 
 #OPM graph rendering
 output$OPM_graph <- renderPlot({
@@ -94,7 +94,7 @@ output$OPM_graph <- renderPlot({
     geom_line(color = 4) +
     theme_classic() +
     labs(title = "OPM Poverty Rate vs. Year", x = "Year", y = "OPM Poverty Rate")
-})
+                              })
 
 #Hover for SPM graph
 observeEvent(input$SPM_hover, {
@@ -107,10 +107,10 @@ observeEvent(input$SPM_hover, {
         paste("Year:", hover_year, "\nSPM Poverty Rate:", round(hover_rate, 2))
       } else {
         "Hover over a valid point."
-      }
-    })
-  }
-})
+              }
+            })
+          }
+        })
 
 #Hover for OPM graph
 observeEvent(input$OPM_hover, {

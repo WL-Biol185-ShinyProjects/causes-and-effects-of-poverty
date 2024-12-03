@@ -43,7 +43,7 @@ navbarPage(theme = shinytheme("united"),
                         leafletOutput("choroplethMap", height = "700px")
                         ),
 
-                      )
+                      ) hello
                     )),
            tabPanel("Causes",
                     h1("What causes poverty?"),

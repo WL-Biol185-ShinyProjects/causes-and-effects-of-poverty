@@ -1,10 +1,7 @@
 library(shiny)
 library(ggplot2)
-library(readr)
-library(readsf)
 library(leaflet)
 library(tidyverse)
-library(leaflet)
 library(htmltools)
 library(htmlwidgets)
 library(stringi)
@@ -13,6 +10,11 @@ library(shinyWidgets)
 library(RColorBrewer)
 library(lubridate)
 library(readxl)
+library(shinythemes)
+library(markdown)
+library(sf)
+library(readr)
+library(geojsonio)
 
 function(input, output, session) {
 

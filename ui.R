@@ -201,9 +201,10 @@ navbarPage(theme = shinytheme("united"),
                           p("Laetitia Roegner '25")),
                       
                         mainPanel(
-                          h3("Image of us")
+                          h3(img(src = "aboutus.png", style = "width:50%; height:auto;")),
+                          )
                           
                         ))
                         )
                     )
-            )
+            

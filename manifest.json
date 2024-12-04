@@ -3,8 +3,8 @@
   "locale": "en_US",
   "platform": "4.1.2",
   "metadata": {
-    "appmode": "rmd-shiny",
-    "primary_rmd": "CB_pov_edu_level.rmd",
+    "appmode": "shiny",
+    "primary_rmd": null,
     "primary_html": null,
     "content_category": null,
     "has_parameters": false
@@ -4210,7 +4210,7 @@
       "checksum": "95fd7504a635521fb673ee8a9a594bdf"
     },
     "CB_pov_edu_level.rmd": {
-      "checksum": "b6f1bc6285396f3a80ceceb0e3ba11c9"
+      "checksum": "bae3f45f5959688c56fc1b45f3a0f724"
     },
     "CB_pov_edu2.xlsx": {
       "checksum": "c286fb81ce48b13d9fe1535128969d45"
@@ -4222,7 +4222,7 @@
       "checksum": "a14838a62f717fcbe6912571aebb6b4f"
     },
     "choropleth_map_trial2.Rmd": {
-      "checksum": "85f501a3b3b20f1fda55bfc27f94b452"
+      "checksum": "86dca0497503565266592ed1d5598455"
     },
     "LICENSE": {
       "checksum": "adde4ce58311dc28c4a51eee0df39d70"
@@ -4234,7 +4234,7 @@
       "checksum": "a72ef18385aca91b4a0e399c2c0b2ac3"
     },
     "OPM_SPM.rmd": {
-      "checksum": "e9b65c0ed5b94d785e19b185b213dfd3"
+      "checksum": "51a8b1d0675140f016a97edd287f78a3"
     },
     "OPM_SPM.xlsx": {
       "checksum": "047fdc0ba12a815537fa36f1484dad41"
@@ -4249,7 +4249,7 @@
       "checksum": "5dda33dcec40b70c6a20f8070fe625b5"
     },
     "pov_edu.rmd": {
-      "checksum": "b61f92eddf00da67ae2ccb9c973062c6"
+      "checksum": "2e99db692a029f6c246d25220e82d3c7"
     },
     "server.r": {
       "checksum": "fc76486907a218770a5b788e342d857b"

@@ -3,13 +3,11 @@ title: ''
 author: "laetitia"
 date: "11/19/2024"
 output: html_document
-runtime: shiny
 ---
 
 *libraries needed
 ```{r}
 library(readxl)
-library(shiny)
 library(ggplot2)
 library(lubridate)
 

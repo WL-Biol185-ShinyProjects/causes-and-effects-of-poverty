@@ -3,13 +3,11 @@ title: "OPM_SPM_time.rmd"
 author: "laetitia"
 date: "11/6/2024"
 output: html_document
-runtime: shiny
 ---
 
 *libraries needed
 ```{r}
 library(readxl)
-library(shiny)
 library(ggplot2)
 library(lubridate)
 
